@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Image Cropper</title>
+{% endblock %}
+{% block content %}
+
+    <a href="{% url 'index' %}">Назад к списку</a>
+    <h1>{{ img.image }}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="fieldWrapper">
+            {{ form.as_ul }}
+        </div>
+        <br>
+      <button type="submit">Upload</button>
+    </form>
+    <br>
+    <img src="{{ img.image.url }}" alt="image">
+
+{% endblock %}

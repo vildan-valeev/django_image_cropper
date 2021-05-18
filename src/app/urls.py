@@ -17,9 +17,11 @@ Including another URLconf
 from django.urls import path, include
 
 from . import views
+
+
 urlpatterns = [
-    path('', views.main, name='index'),
-    path('add/', views.add_image, name='add'),
-    # path('detail/<int:pk>', views.detail, name='detail'),
-    path('detail/', views.detail, name='detail'),
+    path('', views.ImgListView.as_view(), name='index'),
+    path('add/', views.AddImage.as_view(), name='add'),
+    path('detail/<int:pk>', views.ImgDetailView.as_view(), name='img-detail'),
+    # path('detail/<int:pk>/crop/', views.ImgDetailView.as_view(), name='img-detail-crop'),
 ]

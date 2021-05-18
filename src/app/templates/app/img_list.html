@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Image Cropper</title>
+{% endblock %}
+{% block content %}
+    <a href="add">Добавить изображение</a>
+    <h1>Список изображений</h1>
+    
+    {% if image_list %}
+        
+        {% for img in image_list %}
+            <p><a href="{% url 'img-detail' pk=img.pk %}">{{ img.image }}</a></p>
+        {% endfor %}
+        
+    {% else %}
+        <h3>Нет доступных изображений</h3>
+    {% endif %}
+{% endblock %}
