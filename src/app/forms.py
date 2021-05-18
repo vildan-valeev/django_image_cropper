@@ -8,6 +8,7 @@ class ImgForm(forms.ModelForm):
     class Meta:
         model = Img
         fields = '__all__'
+    # TODO: validation - one of two field will be filled
 
 
 class CropperForm(forms.Form):

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+# TODO: add comments
 
 class Img(models.Model):
 

@@ -1,7 +1,4 @@
-# Create your views here.
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import FormMixin
 
@@ -39,8 +36,6 @@ class ImgDetailView(FormMixin, DetailView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        # Here, we would record the user's interest using the message
-        # passed in form.cleaned_data['message']
         return super().form_valid(form)
 
 
@@ -51,12 +46,6 @@ class AddImage(CreateView):
     template_name = 'app/img_create.html'
     model = Img
     form_class = ImgForm
-    # success_url = reverse_lazy('img-detail')
 
     def get_success_url(self):
         return reverse('img-detail', kwargs={'pk': self.object.pk})
-
-    # def get_form_kwargs(self, *args, **kwargs):
-    #     kwargs = super(AddImage, self).get_form_kwargs(*args, **kwargs)
-    #     return kwargs
-
