@@ -5,7 +5,7 @@
 {% block content %}
 
     <a href="{% url 'index' %}">Назад к списку</a>
-    <h1>{{ img.image }}</h1>
+    <h1>{{ img.title }}</h1>
 
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
@@ -13,9 +13,9 @@
             {{ form.as_ul }}
         </div>
         <br>
-      <button type="submit">Upload</button>
+      <button type="submit">Resize</button>
     </form>
     <br>
-    <img src="{{ img.image.url }}" alt="image">
+    <img src="{{ img.img_resized.url }}" alt="image">
 
 {% endblock %}

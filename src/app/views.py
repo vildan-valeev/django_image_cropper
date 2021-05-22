@@ -1,6 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, ModelFormMixin
 
 from app.forms import ImgForm, CropperForm
 from app.models import Img
@@ -16,18 +17,25 @@ class ImgListView(ListView):
     template_name = 'app/img_list.html'
 
 
-class ImgDetailView(FormMixin, DetailView):
+class ImgDetailView(ModelFormMixin, DetailView):
     """
 
     """
     model = Img
     form_class = CropperForm
+    template_name = 'app/img_detail.html'
+    # fields = ['width', 'height']
+
 
     def get_success_url(self):
-        return reverse('author-detail', kwargs={'pk': self.object.pk})
+        return reverse('img-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super(ImgDetailView, self).get_context_data(**kwargs)
+        context["form"] = self.get_form()
+        return context
 
     def post(self, request, *args, **kwargs):
-        # image_inst = get_object_or_404(Img, pk=pk)
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
