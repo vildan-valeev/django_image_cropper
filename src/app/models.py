@@ -62,6 +62,7 @@ class ImageLoad(models.Model):
             image = ContentFile(buf_val)
             #TODO: корректную запись в БД
             image_file = InMemoryUploadedFile(image, None, out_name, 'image/jpeg', image.tell, None)
+            print(image_file)
             self.image_resized = image_file
         elif self.image_link:
             name = str(self.image_link).split('/')[-1]
