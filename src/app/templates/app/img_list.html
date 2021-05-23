@@ -8,8 +8,8 @@
     
     {% if image_list %}
         
-        {% for img in image_list %}
-            <p><a href="{% url 'img-detail' pk=img.pk %}">{{ img.title }}</a></p>
+        {% for image in image_list %}
+            <p><a href="{% url 'img-detail' pk=image.pk %}">{{ image.title }}</a></p>
         {% endfor %}
         
     {% else %}
