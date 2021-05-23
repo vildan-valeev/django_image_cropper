@@ -37,6 +37,7 @@ class ImageLoad(models.Model):
         return reverse('image-view', kwargs={'pk': self.pk})
 
     def sizing(self, width=None, height=None) -> tuple:
+        """Рассчитываем пропорции"""
         size = None
         if width:
             width_percent = width / float(self.image.width)
@@ -53,6 +54,7 @@ class ImageLoad(models.Model):
         if (self.width and self.height) or self.width or self.height:
             original_name, original_ext = os.path.splitext(self.image.name)
             out_name = f'{original_name}_resized{original_ext}'
+            # TODO: Вынести в отдельный метод,
             im = Image.open(self.image.open())
             new_im = im.resize(size=self.sizing(self.width, self.height))
             buffer = BytesIO()
