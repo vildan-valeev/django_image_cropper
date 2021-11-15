@@ -18,10 +18,6 @@ log = logging.getLogger(__name__)
 class ImageLoad(models.Model):
     title = models.CharField(verbose_name='Название', max_length=300, blank=True, )
     image = models.ImageField(verbose_name='Файл', blank=True, upload_to='images')
-    image_link = models.URLField(verbose_name='Ссылка', blank=True, null=True, )
-    # image_resized = models.ImageField(verbose_name='Измененный файл', blank=True, null=True, )
-    # width = models.PositiveIntegerField(verbose_name='Ширина', blank=True, null=True, )
-    # height = models.PositiveIntegerField(verbose_name='Высота', blank=True, null=True, )
 
     def __str__(self):
         return self.title
@@ -38,6 +34,13 @@ class ImageLoad(models.Model):
 
     def get_absolute_url(self, *args, **kwargs):
         return reverse('image-view', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        print(args)
+        print(kwargs)
+        self.title = self.image.name
+        print(self.title)
+        return super().save(*args, **kwargs)
 
     # def sizing(self, width=None, height=None) -> tuple:
     #     """Рассчитываем пропорции"""
