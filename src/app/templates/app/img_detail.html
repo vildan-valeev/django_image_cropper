@@ -5,7 +5,7 @@
 {% block content %}
 
     <a href="{% url 'index' %}">Назад к списку</a>
-    <h1>{{ imageload.title }}</h1>
+    <h1>{{ imageload.id }}. {{ imageload.title }}</h1>
     <br>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}

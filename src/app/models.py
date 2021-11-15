@@ -40,6 +40,7 @@ class ImageLoad(models.Model):
         print(kwargs)
         self.title = self.image.name
         print(self.title)
+        print(self.image.path)
         return super().save(*args, **kwargs)
 
     # def sizing(self, width=None, height=None) -> tuple:
