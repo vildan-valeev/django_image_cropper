@@ -99,9 +99,7 @@ class ImageResizeForm(forms.Form):
         print('cleaned_data', cleaned_data)
 
         return cleaned_data
-    #
-    # def save(self):
-    #     pass
+
     # def sizing(self, width=None, height=None) -> tuple:
     #     """Рассчитываем пропорции"""
     #     size = None
