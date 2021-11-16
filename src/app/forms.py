@@ -1,10 +1,11 @@
-from django import forms
+from io import BytesIO
+
 import requests
-import urllib3
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django import forms
+from django.core.files.images import get_image_dimensions
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .models import *
-from django.core.files.images import get_image_dimensions
 
 log = logging.getLogger(__name__)
 
@@ -90,16 +91,26 @@ class ImageResizeForm(forms.Form):
         fields = ['width', 'height']
 
     def clean(self):
+        print('form clean',)
+
         cleaned_data = super().clean()
         width = cleaned_data.get("width")
         height = cleaned_data.get("height")
-        print(cleaned_data)
-        # if self.width and self.height:
-        #     if int(width) >= 2000 or int(height) >= 2000:
-        #         raise ValidationError('Превышен максимальный размер!')
-        #     size = self.sizing(self.image.width, self.image.height)
-        #
-        #     if round((self.width / size[0]), 1) != round((self.height / size[1]), 1):
-        #         raise ValidationError(f'Укажите в пропорциях {self.image.width}x{self.image.height}. Или укажите только'
-        #                               f' одно из значений')
+        print('cleaned_data', cleaned_data)
+
         return cleaned_data
+    #
+    # def save(self):
+    #     pass
+    # def sizing(self, width=None, height=None) -> tuple:
+    #     """Рассчитываем пропорции"""
+    #     size = None
+    #     if width:
+    #         width_percent = width / float(self.image.width)
+    #         height_size = int((float(self.image.height) * float(width_percent)))
+    #         size = (width, height_size)
+    #     if height:
+    #         height_percent = height / float(self.image.height)
+    #         width_size = int((float(self.image.width) * float(height_percent)))
+    #         size = (width_size, height)
+    #     return size
