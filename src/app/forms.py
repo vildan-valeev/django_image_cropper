@@ -38,41 +38,33 @@ class ImageLoadForm(forms.ModelForm):
     def check_image(image):
         """check height and width image"""
         w, h = get_image_dimensions(image)
-        print('w, h', w, h)
         if w > 2000:
-            raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 2000px" % w)
+            raise forms.ValidationError(f"The image is {w} pixel wide. It's supposed to be 2000px")
         if h > 2000:
-            raise forms.ValidationError("The image is %i pixel high. It's supposed to be 2000px" % h)
+            raise forms.ValidationError(f"The image is {h} pixel high. It's supposed to be 2000px")
         return True
 
     def clean(self, **kwargs):
-        print('старт проверки')
         cleaned_data = super().clean()
-        # log.info(msg=f'{cleaned_data=}')
         image = cleaned_data.get("image")
         image_link = cleaned_data.get("image_link")
-        print(cleaned_data)
         if not self.check_dict(cleaned_data):
             raise forms.ValidationError('Либо фото, либо ссылку')
 
         if image:  # если изображение
-            print('image', image)
             # прогрузка и проверка изображения
             self.check_image(image)
 
         if image_link:  # если только ссылка
-            print('image_link', image_link)
             if not self.is_url_image(image_link):  # корректность ссылки
                 raise forms.ValidationError('Ссылка не корректная. Это не изображение')
             # прогрузка и проверка изображения
             response = requests.get(image_link)
             b_img = BytesIO(response.content)
 
-            print(b_img)
             self.check_image(b_img)
             i = InMemoryUploadedFile(b_img, image, b_img.name, 'image/jpeg', b_img.tell, None)
             cleaned_data["image"] = i
-        print('finish cleaned_data', cleaned_data)
         return cleaned_data
 
     def clean_image_link(self):
@@ -97,7 +89,7 @@ class ImageResizeForm(forms.Form):
         width = cleaned_data.get("width")
         height = cleaned_data.get("height")
         print('cleaned_data', cleaned_data)
-
+        # TODO: проверка пропорций
         return cleaned_data
 
     # def sizing(self, width=None, height=None) -> tuple:
