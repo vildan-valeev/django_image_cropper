@@ -6,7 +6,7 @@
 
     <a href="{% url 'index' %}">Назад к списку</a>
     <h1>{{ imageload.title }}</h1>
-
+    <br>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
         <div class="fieldWrapper">
@@ -16,11 +16,6 @@
       <button type="submit">Resize</button>
     </form>
     <br>
-{#    <p>{{ imageload.image_resized.url }}</p>#}
-{#    <p>{{ imageload.image.url }}</p>#}
-{#    {% if  imageload.image_resized.image.url %}#}
-        <img src="{{ imageload.image_resized.url }}" alt="image">
-{#    {% else %}#}
-{#        <img src="{{ imageload.image.url }}" alt="image">#}
-{#    {% endif %}#}
+    <img src="{{ imageload.image.url }}" alt="{{ imageload.title }}">
+
 {% endblock %}

@@ -3,8 +3,8 @@ version: '3'
 services:
   backend:
     build: ./src
-    command: python manage.py runserver 0.0.0.0:7000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./src/:/usr/src/app/
     ports:
-      - 7000:7000
+      - 8000:8000
