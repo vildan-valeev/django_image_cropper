@@ -10,20 +10,24 @@ from .models import *
 log = logging.getLogger(__name__)
 
 
-class ImageLoadForm(forms.ModelForm):
+class CheckFieldsMixin:
+    def check_dict(self, clean_dict: dict) -> bool:
+        """
+        check dict. In dict 1. will be only image or image_link (only one NoneType)
+        2. will be only width or height (only one NoneType)
+        """
+        # есть ли хоть один None, все ли значения в списке None ()
+        if None in clean_dict.values() and all(isinstance(x, type(None)) for x in clean_dict.values()) is False:
+            return True
+        return False
+
+
+class ImageLoadForm(forms.ModelForm, CheckFieldsMixin):
     image_link = forms.URLField(label='Ссылка', required=False, initial=None)
 
     class Meta:
         model = ImageLoad
         fields = ['image', 'image_link']
-
-    @staticmethod
-    def check_dict(clean_dict: dict) -> bool:
-        """check dict. In dict will be only image or image_link (only one NoneType)"""
-        # есть ли хоть один None, все ли значения в списке None
-        if None in clean_dict.values() and all(isinstance(x, type(None)) for x in clean_dict.values()) is False:
-            return True
-        return False
 
     @staticmethod
     def is_url_image(image_link):
@@ -75,7 +79,7 @@ class ImageLoadForm(forms.ModelForm):
         return image_link
 
 
-class ImageResizeForm(forms.Form):
+class ImageResizeForm(forms.Form, CheckFieldsMixin):
     width = forms.IntegerField(label='Ширина', required=False, max_value=2000, min_value=100)
     height = forms.IntegerField(label='Высота', required=False, max_value=2000, min_value=100)
 
@@ -83,13 +87,15 @@ class ImageResizeForm(forms.Form):
         fields = ['width', 'height']
 
     def clean(self):
-        print('form clean',)
+        print('form clean', )
 
         cleaned_data = super().clean()
         width = cleaned_data.get("width")
         height = cleaned_data.get("height")
         print('cleaned_data', cleaned_data)
         # TODO: проверка пропорций
+        if not self.check_dict(cleaned_data):
+            raise forms.ValidationError('Либо ширину, либо длинну')
         return cleaned_data
 
     # def sizing(self, width=None, height=None) -> tuple:
