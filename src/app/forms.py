@@ -13,11 +13,10 @@ log = logging.getLogger(__name__)
 class CheckFieldsMixin:
     def check_dict(self, clean_dict: dict) -> bool:
         """
-        check dict. In dict 1. will be only image or image_link (only one NoneType)
-        2. will be only width or height (only one NoneType)
+        check dict. In dict will be to input only one NoneType
         """
         # есть ли хоть один None, все ли значения в списке None ()
-        if None in clean_dict.values() and all(isinstance(x, type(None)) for x in clean_dict.values()) is False:
+        if len({k: v for k, v in clean_dict.items() if v}) == 1:
             return True
         return False
 
