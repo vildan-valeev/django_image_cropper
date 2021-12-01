@@ -87,26 +87,8 @@ class ImageResizeForm(forms.Form, CheckFieldsMixin):
         fields = ['width', 'height']
 
     def clean(self):
-        print('form clean', )
-
+        print('resaize form clean', )
         cleaned_data = super().clean()
-        width = cleaned_data.get("width")
-        height = cleaned_data.get("height")
-        print('cleaned_data', cleaned_data)
-        # TODO: проверка пропорций
         if not self.check_dict(cleaned_data):
             raise forms.ValidationError('Либо ширину, либо длинну')
         return cleaned_data
-
-    # def sizing(self, width=None, height=None) -> tuple:
-    #     """Рассчитываем пропорции"""
-    #     size = None
-    #     if width:
-    #         width_percent = width / float(self.image.width)
-    #         height_size = int((float(self.image.height) * float(width_percent)))
-    #         size = (width, height_size)
-    #     if height:
-    #         height_percent = height / float(self.image.height)
-    #         width_size = int((float(self.image.width) * float(height_percent)))
-    #         size = (width_size, height)
-    #     return size
